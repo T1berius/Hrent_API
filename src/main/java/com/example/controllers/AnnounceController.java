@@ -141,7 +141,7 @@ public class AnnounceController {
         }
         return HttpStatus.BAD_REQUEST;
     }
-    @RequestMapping(value = "/api/announce/update/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/announce/update/{id}", method = RequestMethod.PATCH)
     public HttpStatus update(@PathVariable("id") Integer id,
                              @Param("title") String title,
                              @Param("description") String description,
@@ -232,13 +232,22 @@ public class AnnounceController {
 
     @GetMapping(value = "/api/announce/")
     @ResponseBody
-    public List<Announce> getAnnouncesWithSearch(@RequestParam(value = "title",required = false) String title, @RequestParam(value = "city", required = false) String city, @RequestParam(value = "capacity", required = false) Integer capacity, @RequestParam(value = "startDate",required = false) String startDate, @RequestParam(value = "endDate",required = false) String endDate,@RequestParam(value = "postalCode",required = false) String postalCode, @RequestParam(value = "price",required = false)Double price) throws ParseException {
+    public List<Announce> getAnnouncesWithSearch(@RequestParam(value = "title",required = false) String title, @RequestParam(value = "city", required = false) String city, @RequestParam(value = "capacity", required = false) Integer capacity, @RequestParam(value = "startDate",required = false) String startDate, @RequestParam(value = "endDate",required = false) String endDate,@RequestParam(value = "postalCode",required = false) String postalCode, @RequestParam(value = "minPrice",required = false)Double minPrice, @RequestParam(value = "maxPrice",required = false)Double maxPrice) throws ParseException {
+        Double price = null;
         if(startDate == null || endDate == null || startDate == "" || endDate == ""){
             startDate = null;
             endDate = null;
         }
         if(city == "") {
             city = null;
+        }
+        if(maxPrice != null || minPrice != null){
+            price = 2.0;
+            if(minPrice == null){
+                minPrice = 0.0;
+            } if (maxPrice == null){
+                maxPrice = Double.MAX_VALUE;
+            }
         }
         if(postalCode == "") {
             postalCode = null;
@@ -257,7 +266,7 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByCapacity(title, capacity));
             }
             if (postalCode == null && city == null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPrice(title, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPrice(title, minPrice, maxPrice));
             }
             if (postalCode != null && city != null && startDate == null && capacity == null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCity(title, postalCode, city));
@@ -278,19 +287,19 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndCity(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, city));
             }
             if (postalCode == null && city == null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByCapacityAndPrice(title, capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByCapacityAndPrice(title, capacity, minPrice, maxPrice));
             }
             if (postalCode != null && city == null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPriceAndPostalCode(title, price, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPriceAndPostalCode(title, minPrice, maxPrice, postalCode));
             }
             if (postalCode == null && city != null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPriceAndCity(title, price, city));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPriceAndCity(title, minPrice, maxPrice, city));
             }
             if (postalCode != null && city != null && startDate != null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndCityAndCapacity(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, city, capacity));
             }
             if (postalCode != null && city == null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndCapacityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndCapacityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, capacity, minPrice, maxPrice));
             }
             if (postalCode == null && city == null && startDate != null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCapacity(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), capacity));
@@ -299,47 +308,47 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCityAndCapacity(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city, capacity));
             }
             if (postalCode == null && city != null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCityAndCapacityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city, capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCityAndCapacityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city, capacity, minPrice, maxPrice));
             }
             if (postalCode == null && city == null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice));
             }
             if (postalCode == null && city == null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCapacityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCapacityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), capacity, minPrice, maxPrice));
             }
             if (postalCode != null && city == null && startDate != null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndCapacity(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, capacity));
             }
             if (postalCode == null && city != null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndCityAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city, minPrice, maxPrice));
             }
             if (postalCode != null && city == null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByDateAndPostalCodeAndPrice(title, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, minPrice, maxPrice));
             }
             if (postalCode == null && city != null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByCityAndCapacityAndPrice(title, city, capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByCityAndCapacityAndPrice(title, city, capacity, minPrice, maxPrice));
             }
             if (postalCode != null && city == null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCapacityAndPrice(title, postalCode, capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCapacityAndPrice(title, postalCode, capacity, minPrice, maxPrice));
             }
             if(postalCode != null && city != null && startDate == null && capacity != null && price == null){
                 return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndCapacity(title, postalCode, city, capacity));
             }
             if(postalCode != null && city != null && startDate == null && capacity == null && price != null){
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndPrice(title, postalCode, city, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndPrice(title, postalCode, city, minPrice, maxPrice));
             }
             if(postalCode != null && city != null && startDate != null && capacity == null && price != null){
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndDateAndPrice(title, postalCode, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndDateAndPrice(title, postalCode, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice));
             }
             if(postalCode != null && city != null && startDate == null && capacity != null && price != null){
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(title, postalCode, city, capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(title, postalCode, city, capacity, minPrice, maxPrice));
             }
             if(postalCode != null && city != null && startDate != null && capacity != null && price != null){
-                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(title, postalCode, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(title, postalCode, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), capacity, minPrice, maxPrice));
             }
         } else {
             if(postalCode == null && city == null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPrice(price));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPrice(minPrice, maxPrice));
             }
             if(postalCode == null && city == null && startDate == null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacity(capacity));
@@ -354,7 +363,7 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPostalCode(postalCode));
             }
             if(postalCode == null && city == null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndPrice(capacity, price));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndPrice(capacity, minPrice, maxPrice));
             }
             if(postalCode == null && city == null && startDate != null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDate(capacity,new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate)));
@@ -369,13 +378,13 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPostalCode(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode));
             }
             if(postalCode != null && city == null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndPriceAndPostalCode(capacity, price, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndPriceAndPostalCode(capacity, minPrice, maxPrice, postalCode));
             }
             if(postalCode == null && city == null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPrice(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPrice(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice));
             }
             if(postalCode == null && city != null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndCityAndPrice(capacity, city, price));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndCityAndPrice(capacity, city, minPrice, maxPrice));
             }
             if(postalCode != null && city != null && startDate == null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndCityAndPostalCode(capacity, city, postalCode));
@@ -384,19 +393,19 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndCity(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city));
             }
             if(postalCode == null && city != null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPriceAndCity(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price, city));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPriceAndCity(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice, city));
             }
             if(postalCode != null && city == null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPriceAndPostalCode(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPriceAndPostalCode(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice, postalCode));
             }
             if(postalCode != null && city != null && startDate != null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPriceAndCityAndPostalCode(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price, city, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCapacityAndDateAndPriceAndCityAndPostalCode(capacity, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice, city, postalCode));
             }
             if(postalCode != null && city == null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByDateAndPriceAndPostalCode(new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByDateAndPriceAndPostalCode(new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice, postalCode));
             }
             if(postalCode == null && city == null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByDateAndPrice(new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), price));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByDateAndPrice(new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), minPrice, maxPrice));
             }
             if(postalCode == null && city != null && startDate != null && capacity == null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByDateAndCity(new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), city));
@@ -405,28 +414,28 @@ public class AnnounceController {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByDateAndPostalCode(new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode));
             }
             if(postalCode == null && city != null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCity(price, city));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCity(minPrice, maxPrice, city));
             }
             if(postalCode != null && city == null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndPostalCode(price, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndPostalCode(minPrice, maxPrice, postalCode));
             }
             if(postalCode != null && city != null && startDate == null && capacity == null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCityAndPostalCode(city, postalCode));
             }
             if(postalCode == null && city != null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndDate(price, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate)));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndDate(minPrice, maxPrice, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate)));
             }
             if(postalCode != null && city != null && startDate == null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndPostalCode(price, city, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndPostalCode(minPrice, maxPrice, city, postalCode));
             }
             if(postalCode != null && city != null && startDate != null && capacity == null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndDateAndPostalCode(price, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndDateAndPostalCode(minPrice, maxPrice, city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode));
             }
             if(postalCode != null && city != null && startDate != null && capacity != null && price == null) {
                 return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByCityAndDateAndPostalCodeAndCapacity(city, new SimpleDateFormat("dd-MM-yyyy").parse(startDate), new SimpleDateFormat("dd-MM-yyyy").parse(endDate), postalCode, capacity));
             }
             if(postalCode != null && city != null && startDate == null && capacity != null && price != null) {
-                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(price, city, capacity, postalCode));
+                return announceConverter.listDtoToListEntity(announceService.findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(minPrice,maxPrice, city, capacity, postalCode));
             }
         }
         return announceConverter.listDtoToListEntity(announceService.findAnnouncesByTitle(title));

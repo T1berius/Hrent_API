@@ -77,28 +77,28 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndPostalCodeAndCity(title,postalCode, city));
     }
 
-    public List<AnnounceDTO> findAnnouncesByCapacityAndPrice(String title, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndCapacityAndPrice(title,capacity, price));
+    public List<AnnounceDTO> findAnnouncesByCapacityAndPrice(String title, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndCapacityAndPrice(title,capacity, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPrice(String title, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndPrice(title,price));
+    public List<AnnounceDTO> findAnnouncesByPrice(String title, Double minPrice, Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndPrice(title,minPrice,maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPriceAndPostalCode(String title, Double price, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndPostalCode(title,price, postalCode));
+    public List<AnnounceDTO> findAnnouncesByPriceAndPostalCode(String title, Double minPrice,Double maxPrice, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndPostalCode(title,minPrice, maxPrice, postalCode));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPriceAndCity(String title, Double price, String city) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndCity(title,price, city));
+    public List<AnnounceDTO> findAnnouncesByPriceAndCity(String title, Double minPrice,Double maxPrice, String city) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndCity(title,minPrice, maxPrice, city));
     }
 
     public List<AnnounceDTO> findAnnouncesByDateAndPostalCodeAndCityAndCapacity(String title, Date startDate, Date endDate, String postalCode, String city, Integer capacity) {
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByDateAndCapacityAndPostalCodeAndCity(title,startDate, endDate,capacity, postalCode,city));
     }
 
-    public List<AnnounceDTO> findAnnouncesByDateAndPostalCodeAndCapacityAndPrice(String title, Date parse, Date parse1, String postalCode, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByDateAndCapacityAndPriceAndPostalCode(title,parse, parse1,capacity, price, postalCode));
+    public List<AnnounceDTO> findAnnouncesByDateAndPostalCodeAndCapacityAndPrice(String title, Date parse, Date parse1, String postalCode, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByDateAndCapacityAndPriceAndPostalCode(title,parse, parse1,capacity, minPrice, maxPrice, postalCode));
     }
 
     public List<AnnounceDTO> getAnnouncesByCity(String title,String city) {
@@ -112,8 +112,8 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndDateAndCapacityAndCity(title,startDate, endDate,capacity, city));
     }
 
-    public List<AnnounceDTO> findAnnouncesByDateAndCityAndCapacityAndPrice(String title, Date startDate, Date endDate, String city, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndDateAndCapacityAndPriceAndCity(title,startDate, endDate,price, city, capacity));
+    public List<AnnounceDTO> findAnnouncesByDateAndCityAndCapacityAndPrice(String title, Date startDate, Date endDate, String city, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleLikeAndDateAndCapacityAndPriceAndCity(title,startDate, endDate,minPrice, maxPrice, city, capacity));
     }
 
     public List<AnnounceDTO> findWithoutTitleByDate(Date startDate, Date endDate) {
@@ -124,8 +124,8 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacity(capacity));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByPrice(Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceOrLess(price));
+    public List<AnnounceDTO> findWithoutTitleByPrice(Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceOrLess(minPrice, maxPrice));
     }
 
     public List<AnnounceDTO> findWithoutTitleByPostalCode(String postalCode) {
@@ -136,8 +136,8 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCity(city));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndPrice(Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPrice(capacity, price));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndPrice(Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPrice(capacity, minPrice, maxPrice));
     }
 
     public List<AnnounceDTO> findWithoutTitleByCapacityAndPostalCode(Integer capacity, String postalCode) {
@@ -156,12 +156,12 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndDateAndPostalCode(capacity, startDate, endDate, postalCode));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndPriceAndPostalCode(Integer capacity, Double price, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCode(capacity, price, postalCode));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndPriceAndPostalCode(Integer capacity, Double minPrice,Double maxPrice, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCode(capacity, minPrice, maxPrice, postalCode));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndPriceAndCity(Integer capacity, Double price, String city) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndCity(capacity, price, city));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndPriceAndCity(Integer capacity, Double minPrice,Double maxPrice, String city) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndCity(capacity, minPrice, maxPrice, city));
     }
 
     public List<AnnounceDTO> findWithoutTitleByCapacityAndCityAndPostalCode(Integer capacity, String city, String postalCode) {
@@ -172,40 +172,40 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndDateAndCity(capacity, startDate, endDate, city));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPriceAndCity(Integer capacity, Date startDate, Date endDate, Double price, String city) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndDateAndPriceAndCity(capacity, price, city, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPriceAndCity(Integer capacity, Date startDate, Date endDate, Double minPrice,Double maxPrice, String city) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndDateAndPriceAndCity(capacity, minPrice, maxPrice, city, startDate, endDate));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndPriceAndPostalCodeAndDate(Integer capacity, Double price, String postalCode, Date startDate, Date endDate) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCodeAndDate(capacity, price, postalCode, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndPriceAndPostalCodeAndDate(Integer capacity, Double minPrice,Double maxPrice, String postalCode, Date startDate, Date endDate) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCodeAndDate(capacity, minPrice, maxPrice, postalCode, startDate, endDate));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPrice(Integer capacity, Date startDate, Date endDate, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndDateAndPrice(capacity, startDate, endDate, price));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPrice(Integer capacity, Date startDate, Date endDate, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndDateAndPrice(capacity, startDate, endDate, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndCityAndPrice(Integer capacity, String city, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndCity(capacity, price, city));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndCityAndPrice(Integer capacity, String city, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndCity(capacity, minPrice, maxPrice, city));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPriceAndPostalCode(Integer capacity, Date startDate, Date endDate, Double price, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCodeAndDate(capacity, price, postalCode, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPriceAndPostalCode(Integer capacity, Date startDate, Date endDate, Double minPrice,Double maxPrice, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCodeAndDate(capacity, minPrice, maxPrice, postalCode, startDate, endDate));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPriceAndCityAndPostalCode(Integer capacity, Date startDate, Date endDate, Double price, String city, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCodeAndDateAndCity(capacity, price,postalCode, startDate, endDate, city));
+    public List<AnnounceDTO> findWithoutTitleByCapacityAndDateAndPriceAndCityAndPostalCode(Integer capacity, Date startDate, Date endDate, Double minPrice,Double maxPrice, String city, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByCapacityAndPriceAndPostalCodeAndDateAndCity(capacity, minPrice, maxPrice,postalCode, startDate, endDate, city));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByDateAndPriceAndPostalCode(Date startDate, Date endDate, Double price, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndPostalCodeAndDate(price, postalCode, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByDateAndPriceAndPostalCode(Date startDate, Date endDate, Double minPrice,Double maxPrice, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndPostalCodeAndDate(minPrice, maxPrice, postalCode, startDate, endDate));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByDateAndPrice(Date startDate, Date endDate, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndDate(price, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByDateAndPrice(Date startDate, Date endDate, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByPriceAndDate(minPrice, maxPrice, startDate, endDate));
     }
 
-    public List<AnnounceDTO> findAnnouncesByDateAndPrice(String title, Date startDate, Date endDate, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleAndPriceAndDate(title, price, startDate, endDate));
+    public List<AnnounceDTO> findAnnouncesByDateAndPrice(String title, Date startDate, Date endDate, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByTitleAndPriceAndDate(title, minPrice, maxPrice, startDate, endDate));
     }
 
     public List<AnnounceDTO> findWithoutTitleByDateAndCity(Date startDate, Date endDate, String city) {
@@ -216,28 +216,28 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findByDateAndPostalCode(startDate, endDate, postalCode));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByPriceAndCity(Double price, String city) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCity(price, city));
+    public List<AnnounceDTO> findWithoutTitleByPriceAndCity(Double minPrice,Double maxPrice, String city) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCity(minPrice, maxPrice, city));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByPriceAndPostalCode(Double price, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndPostalCode(price, postalCode));
+    public List<AnnounceDTO> findWithoutTitleByPriceAndPostalCode(Double minPrice,Double maxPrice, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndPostalCode(minPrice, maxPrice, postalCode));
     }
 
     public List<AnnounceDTO> findWithoutTitleByCityAndPostalCode(String city, String postalCode) {
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByCityAndPostalCode(city, postalCode));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndDate(Double price, String city, Date startDate, Date endDate) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndDate(price, city, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndDate(Double minPrice,Double maxPrice, String city, Date startDate, Date endDate) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndDate(minPrice, maxPrice, city, startDate, endDate));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndPostalCode(Double price, String city, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndPostalCode(price, city, postalCode));
+    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndPostalCode(Double minPrice,Double maxPrice, String city, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndPostalCode(minPrice, maxPrice, city, postalCode));
     }
 
-    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndDateAndPostalCode(Double price, String city, Date startDate, Date endDate, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndDateAndPostalCode(price, city, postalCode, startDate, endDate));
+    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndDateAndPostalCode(Double minPrice,Double maxPrice, String city, Date startDate, Date endDate, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndDateAndPostalCode(minPrice, maxPrice, city, postalCode, startDate, endDate));
     }
 
     public List<AnnounceDTO> findWithoutTitleByCityAndDateAndPostalCodeAndCapacity(String city, Date startDate, Date endDate, String postalCode, Integer capacity) {
@@ -245,51 +245,51 @@ public class AnnounceService extends GenericCrudService<Announce,AnnounceDTO,Int
     }
 
 
-    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(Double price, String city, Integer capacity, String postalCode) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(price, city, capacity, postalCode));
+    public List<AnnounceDTO> findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(Double minPrice,Double maxPrice, String city, Integer capacity, String postalCode) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(minPrice, maxPrice, city, capacity, postalCode));
     }
 
-    public List<AnnounceDTO> findAnnouncesByDateAndCapacityAndPrice(String title, Date startDate, Date endDate, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndCapacityAndPrice(title, startDate, endDate, capacity, price));
+    public List<AnnounceDTO> findAnnouncesByDateAndCapacityAndPrice(String title, Date startDate, Date endDate, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndCapacityAndPrice(title, startDate, endDate, capacity, minPrice, maxPrice));
     }
 
     public List<AnnounceDTO> findAnnouncesByDateAndPostalCodeAndCapacity(String title, Date startDate, Date endDate, String postalCode, Integer capacity) {
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndPostalCodeAndCapacity(title, startDate, endDate, postalCode, capacity));
     }
 
-    public List<AnnounceDTO> findAnnouncesByDateAndCityAndPrice(String title, Date startDate, Date endDate, String city, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndCityAndPrice(title,startDate, endDate, city, price));
+    public List<AnnounceDTO> findAnnouncesByDateAndCityAndPrice(String title, Date startDate, Date endDate, String city, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndCityAndPrice(title,startDate, endDate, city, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByDateAndPostalCodeAndPrice(String title, Date startDate, Date endDate, String postalCode, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndPostalCodeAndPrice(title, startDate, endDate, postalCode, price));
+    public List<AnnounceDTO> findAnnouncesByDateAndPostalCodeAndPrice(String title, Date startDate, Date endDate, String postalCode, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByDateAndPostalCodeAndPrice(title, startDate, endDate, postalCode, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByCityAndCapacityAndPrice(String title, String city, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByCityAndCapacityAndPrice(title, city, capacity, price));
+    public List<AnnounceDTO> findAnnouncesByCityAndCapacityAndPrice(String title, String city, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByCityAndCapacityAndPrice(title, city, capacity, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCapacityAndPrice(String title, String postalCode, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCapacityAndPrice(title, postalCode, capacity, price));
+    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCapacityAndPrice(String title, String postalCode, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCapacityAndPrice(title, postalCode, capacity, minPrice, maxPrice));
     }
 
     public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndCapacity(String title, String postalCode, String city, Integer capacity) {
         return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndCapacity(title, postalCode, city, capacity));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndPrice(String title, String postalCode, String city, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndPrice(title, postalCode, city, price));
+    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndPrice(String title, String postalCode, String city, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndPrice(title, postalCode, city, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndDateAndPrice(String title, String postalCode, String city, Date startDate, Date endDate, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndDateAndPrice(title, postalCode, city, startDate, endDate, price));
+    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndDateAndPrice(String title, String postalCode, String city, Date startDate, Date endDate, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndDateAndPrice(title, postalCode, city, startDate, endDate, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(String title, String postalCode, String city, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(title, postalCode, city, capacity, price));
+    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(String title, String postalCode, String city, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(title, postalCode, city, capacity, minPrice, maxPrice));
     }
 
-    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(String title, String postalCode, String city, Date startDate, Date endDate, Integer capacity, Double price) {
-        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(title, postalCode, city, startDate, endDate, capacity, price));
+    public List<AnnounceDTO> findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(String title, String postalCode, String city, Date startDate, Date endDate, Integer capacity, Double minPrice,Double maxPrice) {
+        return this.converter.listEntityToListDto(((AnnounceRepository)this.repository).findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(title, postalCode, city, startDate, endDate, capacity, minPrice, maxPrice));
     }
 }

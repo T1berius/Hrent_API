@@ -31,26 +31,26 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.city = :city")
     List<Announce> findByTitleLikeAndCity(@Param("title") String title, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.price <= :price")
-    List<Announce> findByTitleLikeAndPrice(@Param("title") String title, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByTitleLikeAndPrice(@Param("title") String title, @Param("minPrice") Double minPrice, @Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findByTitleLikeAndCapacityAndPrice(@Param("title") String title, @Param("capacity") Integer capacity, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByTitleLikeAndCapacityAndPrice(@Param("title") String title, @Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price")
-    List<Announce> findByTitleLikeAndDateAndPrice(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByTitleLikeAndDateAndPrice(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.price <= :price AND a.postalCode = :postalCode")
-    List<Announce> findByTitleLikeAndDateAndPriceAndPostalCode(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode")
+    List<Announce> findByTitleLikeAndDateAndPriceAndPostalCode(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.price <= :price AND a.postalCode = :postalCode AND a.capacity >= :capacity")
-    List<Announce> findByTitleLikeAndDateAndPriceAndPostalCodeAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("postalCode") String postalCode, @Param("capacity") Integer capacity);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode AND a.capacity >= :capacity")
+    List<Announce> findByTitleLikeAndDateAndPriceAndPostalCodeAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode, @Param("capacity") Integer capacity);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.price <= :price AND a.city = :city AND a.capacity >= :capacity")
-    List<Announce> findByTitleLikeAndDateAndPriceAndCityAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("city") String city, @Param("capacity") Integer capacity);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.capacity >= :capacity")
+    List<Announce> findByTitleLikeAndDateAndPriceAndCityAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city, @Param("capacity") Integer capacity);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.price <= :price AND a.capacity >= :capacity")
-    List<Announce> findByTitleLikeAndDateAndPriceAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("capacity") Integer capacity);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND :minPrice <= a.price AND a.price <= :maxPrice AND a.capacity >= :capacity")
+    List<Announce> findByTitleLikeAndDateAndPriceAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("capacity") Integer capacity);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity")
     List<Announce> findByTitleLikeAndDateAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity);
@@ -58,14 +58,14 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce  a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND a.city = :city")
     List<Announce> findByTitleLikeAndDateAndCapacityAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.price <= :price AND a.city = :city")
-    List<Announce> findByTitleLikeAndDateAndPriceAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("city") String city);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city")
+    List<Announce> findByTitleLikeAndDateAndPriceAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.capacity >= :capacity AND a.postalCode = :postalCode")
     List<Announce> findByTitleLikeAndCapacityAndPostalCode(@Param("title") String title, @Param("capacity") Integer capacity, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.price <= :price")
-    List<Announce> findByTitleLikeAndPostalCodeAndPrice(@Param("title") String title, @Param("postalCode") String postalCode, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByTitleLikeAndPostalCodeAndPrice(@Param("title") String title, @Param("postalCode") String postalCode, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate")
     List<Announce> findByTitleLikeAndPostalCodeAndDate(@Param("title") String title, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
@@ -88,23 +88,23 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city")
     List<Announce> findByTitleLikeAndPostalCodeAndCity(@Param("title") String title, @Param("postalCode") String postalCode, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.price <= :price AND a.postalCode = :postalCode")
-    List<Announce> findByPriceAndPostalCode(@Param("title") String title, @Param("price") Double price, @Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode")
+    List<Announce> findByPriceAndPostalCode(@Param("title") String title, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.price <= :price AND a.city = :city")
-    List<Announce> findByPriceAndCity(@Param("title") String title, @Param("price") Double price, @Param("city") String city);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city")
+    List<Announce> findByPriceAndCity(@Param("title") String title, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND a.postalCode = :postalCode AND a.city = :city")
     List<Announce> findByDateAndCapacityAndPostalCodeAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity, @Param("postalCode") String postalCode, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.city = :city AND a.postalCode = :postalCode")
-    List<Announce> findByDateAndPriceAndCityAndPostalCode(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("city") String city, @Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.postalCode = :postalCode")
+    List<Announce> findByDateAndPriceAndCityAndPostalCode(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price AND a.postalCode = :postalCode AND capacity >= :capacity AND city = :city")
-    List<Announce> findByDateAndPriceAndPostalCodeAndCapacityAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("postalCode") String postalCode, @Param("capacity") Integer capacity, @Param("city") String city);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode AND capacity >= :capacity AND city = :city")
+    List<Announce> findByDateAndPriceAndPostalCodeAndCapacityAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode, @Param("capacity") Integer capacity, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND a.price <= :price AND a.postalCode = :postalCode")
-    List<Announce> findByDateAndCapacityAndPriceAndPostalCode(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity, @Param("price") Double price, @Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode")
+    List<Announce> findByDateAndCapacityAndPriceAndPostalCode(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.city = :city")
     List<Announce> findByTitleAndCity(@Param("title") String title, @Param("city") String city);
@@ -112,8 +112,8 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode")
     List<Announce> findByTitleAndPostalCode(@Param("title") String title, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.price <= :price")
-    List<Announce> findByTitleAndPrice(@Param("title") String title, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByTitleAndPrice(@Param("title") String title, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND capacity >= :capacity")
     List<Announce> findByTitleAndDateAndCapacity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity);
@@ -121,12 +121,12 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND capacity >= :capacity AND city = :city")
     List<Announce> findByTitleAndDateAndCapacityAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("capacity") Integer capacity, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND price <= :price")
-    List<Announce> findByTitleAndDateAndPrice(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByTitleAndDateAndPrice(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND price <= :price AND city = :city AND capacity >= :capacity")
-    List<Announce> findByTitleLikeAndDateAndCapacityAndPriceAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price, @Param("city") String city, @Param("capacity") Integer capacity);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice AND city = :city AND capacity >= :capacity")
+    List<Announce> findByTitleLikeAndDateAndCapacityAndPriceAndCity(@Param("title") String title, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city, @Param("capacity") Integer capacity);
 
     @Query(value = "FROM Announce a WHERE city = :city")
     List<Announce> findByCity(@Param("city") String city);
@@ -134,8 +134,8 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE postalCode = :postalCode")
     List<Announce> findByPostalCode(@Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price")
-    List<Announce> findByPriceOrLess(@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByPriceOrLess(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
     @Query(value = "FROM Announce a WHERE capacity >= :capacity")
     List<Announce> findByCapacity(@Param("capacity") Integer capacity);
@@ -143,8 +143,8 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE a.startDate <= :startDate AND a.endDate >= :endDate")
     List<Announce> findByDate(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findByCapacityAndPrice(@Param("capacity") Integer capacity, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findByCapacityAndPrice(@Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
     @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.postalCode = :postalCode")
     List<Announce> findByCapacityAndPostalCode(@Param("capacity") Integer capacity, @Param("postalCode") String postalCode);
@@ -158,11 +158,11 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode")
     List<Announce> findByCapacityAndDateAndPostalCode(@Param("capacity") Integer capacity, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price AND a.postalCode = :postalCode")
-    List<Announce> findByCapacityAndPriceAndPostalCode(@Param("capacity") Integer capacity, @Param("price") Double price, @Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode")
+    List<Announce> findByCapacityAndPriceAndPostalCode(@Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price AND a.city = :city")
-    List<Announce> findByCapacityAndPriceAndCity(@Param("capacity") Integer capacity, @Param("price") Double price, @Param("city") String city);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city")
+    List<Announce> findByCapacityAndPriceAndCity(@Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city);
 
     @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :city = a.city AND a.postalCode = :postalCode")
     List<Announce> findByCapacityAndCityAndPostalCode(@Param("capacity") Integer capacity, @Param("city") String city, @Param("postalCode") String postalCode);
@@ -170,25 +170,25 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.endDate >= :endDate AND a.startDate <= :startDate AND a.city = :city")
     List<Announce> findByCapacityAndDateAndCity(@Param("capacity") Integer capacity, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findByCapacityAndDateAndPriceAndCity(@Param("capacity") Integer capacity, @Param("price") Double price, @Param("city") String city, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findByCapacityAndDateAndPrice(@Param("capacity") Integer capacity, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findByCapacityAndDateAndPriceAndCity(@Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findByCapacityAndDateAndPrice(@Param("capacity") Integer capacity, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findByCapacityAndPriceAndPostalCodeAndDate(@Param("capacity") Integer capacity, @Param("price") Double price, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findByCapacityAndPriceAndPostalCodeAndDate(@Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND a.price <= :price AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.city = :city")
-    List<Announce> findByCapacityAndPriceAndPostalCodeAndDateAndCity(@Param("capacity") Integer capacity, @Param("price") Double price, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("city") String city);
+    @Query(value = "FROM Announce a WHERE a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.city = :city")
+    List<Announce> findByCapacityAndPriceAndPostalCodeAndDateAndCity(@Param("capacity") Integer capacity, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findByPriceAndPostalCodeAndDate(@Param("price") Double price, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findByPriceAndPostalCodeAndDate(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findByPriceAndDate(@Param("price") Double price, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findByPriceAndDate(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.price <= :price AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findByTitleAndPriceAndDate(@Param("title") String title, @Param("price") Double price, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND :minPrice <= a.price AND a.price <= :maxPrice AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findByTitleAndPriceAndDate(@Param("title") String title, @Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
     @Query(value = "FROM Announce a WHERE a.startDate <= :startDate AND a.endDate >= :endDate AND a.city = :city")
     List<Announce> findByDateAndCity(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("city") String city);
@@ -196,60 +196,60 @@ public interface AnnounceRepository extends JpaRepository<Announce,Integer> {
     @Query(value = "FROM Announce a WHERE a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode")
     List<Announce> findByDateAndPostalCode(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.city = :city")
-    List<Announce> findWithoutTitleByPriceAndCity(@Param("price") Double price, @Param("city") String city);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city")
+    List<Announce> findWithoutTitleByPriceAndCity(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("city") String city);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.postalCode = :postalCode")
-    List<Announce> findWithoutTitleByPriceAndPostalCode(@Param("price") Double price, @Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.postalCode = :postalCode")
+    List<Announce> findWithoutTitleByPriceAndPostalCode(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice, @Param("postalCode") String postalCode);
 
     @Query(value = "FROM Announce a WHERE a.city = :city AND a.postalCode = :postalCode")
     List<Announce> findWithoutTitleByCityAndPostalCode(@Param("city") String city, @Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate")
-    List<Announce> findWithoutTitleByPriceAndCityAndDate(@Param("price") Double price,@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate")
+    List<Announce> findWithoutTitleByPriceAndCityAndDate(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice,@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.city = :city AND a.postalCode = :postalCode")
-    List<Announce> findWithoutTitleByPriceAndCityAndPostalCode(@Param("price") Double price,@Param("city") String city,@Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.postalCode = :postalCode")
+    List<Announce> findWithoutTitleByPriceAndCityAndPostalCode(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice,@Param("city") String city,@Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode")
-    List<Announce> findWithoutTitleByPriceAndCityAndDateAndPostalCode(@Param("price") Double price,@Param("city") String city,@Param("postalCode") String postalCode,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode")
+    List<Announce> findWithoutTitleByPriceAndCityAndDateAndPostalCode(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice,@Param("city") String city,@Param("postalCode") String postalCode,@Param("startDate") Date startDate,@Param("endDate") Date endDate);
 
     @Query(value = "FROM Announce a WHERE a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode AND a.capacity >= :capacity")
     List<Announce> findWithoutTitleByCityAndDateAndPostalCodeAndCapacity(@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("postalCode") String postalCode,@Param("capacity") Integer capacity);
 
-    @Query(value = "FROM Announce a WHERE a.price <= :price AND a.city = :city AND a.capacity >= :capacity AND a.postalCode = :postalCode")
-    List<Announce> findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(@Param("price") Double price,@Param("city") String city,@Param("capacity") Integer capacity,@Param("postalCode") String postalCode);
+    @Query(value = "FROM Announce a WHERE :minPrice <= a.price AND a.price <= :maxPrice AND a.city = :city AND a.capacity >= :capacity AND a.postalCode = :postalCode")
+    List<Announce> findWithoutTitleByPriceAndCityAndCapacityAndPostalCode(@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice,@Param("city") String city,@Param("capacity") Integer capacity,@Param("postalCode") String postalCode);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findAnnouncesByDateAndCapacityAndPrice(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("capacity") Integer capacity,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByDateAndCapacityAndPrice(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("capacity") Integer capacity,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode AND a.capacity >= :capacity")
     List<Announce> findAnnouncesByDateAndPostalCodeAndCapacity(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("postalCode") String postalCode,@Param("capacity") Integer capacity);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.city = :city AND a.price <= :price")
-    List<Announce> findAnnouncesByDateAndCityAndPrice(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("city") String city,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.city = :city AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByDateAndCityAndPrice(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("city") String city,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode AND a.price <= :price")
-    List<Announce> findAnnouncesByDateAndPostalCodeAndPrice(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("postalCode") String postalCode,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.postalCode = :postalCode AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByDateAndPostalCodeAndPrice(@Param("title") String title,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("postalCode") String postalCode,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.city = :city AND a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findAnnouncesByCityAndCapacityAndPrice(@Param("title") String title,@Param("city") String city,@Param("capacity") Integer capacity,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.city = :city AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByCityAndCapacityAndPrice(@Param("title") String title,@Param("city") String city,@Param("capacity") Integer capacity,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findAnnouncesByPostalCodeAndCapacityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("capacity") Integer capacity,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByPostalCodeAndCapacityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("capacity") Integer capacity,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
     @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.capacity >= :capacity")
     List<Announce> findAnnouncesByPostalCodeAndCityAndCapacity(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("capacity") Integer capacity);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.price <= :price")
-    List<Announce> findAnnouncesByPostalCodeAndCityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByPostalCodeAndCityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.price <= :price")
-    List<Announce> findAnnouncesByPostalCodeAndCityAndDateAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByPostalCodeAndCityAndDateAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("capacity") Integer capacity,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByPostalCodeAndCityAndCapacityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("capacity") Integer capacity,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 
-    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND a.price <= :price")
-    List<Announce> findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("capacity") Integer capacity,@Param("price") Double price);
+    @Query(value = "FROM Announce a WHERE title LIKE CONCAT('%',:title,'%') AND a.postalCode = :postalCode AND a.city = :city AND a.startDate <= :startDate AND a.endDate >= :endDate AND a.capacity >= :capacity AND :minPrice <= a.price AND a.price <= :maxPrice")
+    List<Announce> findAnnouncesByPostalCodeAndCityAndDateAndCapacityAndPrice(@Param("title") String title,@Param("postalCode") String postalCode,@Param("city") String city,@Param("startDate") Date startDate,@Param("endDate") Date endDate,@Param("capacity") Integer capacity,@Param("minPrice") Double minPrice,@Param("maxPrice") Double maxPrice);
 }
