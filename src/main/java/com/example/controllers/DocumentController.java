@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class DocumentController {
     @Autowired
     private DocumentRepository documentRepository;
