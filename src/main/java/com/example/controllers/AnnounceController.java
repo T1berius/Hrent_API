@@ -56,7 +56,7 @@ public class AnnounceController {
     }
 
     @RequestMapping(value = "/api/announce/create", method = RequestMethod.POST)
-    public HttpStatus createAnnounce(@Param("title") String title,
+    public String createAnnounce(@Param("title") String title,
                                      @Param("description") String description,
                                      @Param("price") Double price,
                                      @Param("idUser") Integer idUser,
@@ -134,12 +134,12 @@ public class AnnounceController {
                 }
                 announceDTO.setCity(city);
                 announceService.create(announceDTO);
-                return HttpStatus.OK;
+                return "OK";
             }  else {
-                return HttpStatus.BAD_REQUEST;
+                return "images : "+files;
             }
         }
-        return HttpStatus.BAD_REQUEST;
+        return "NON";
     }
     @RequestMapping(value = "/api/announce/update/{id}", method = RequestMethod.PATCH)
     public HttpStatus update(@PathVariable("id") Integer id,

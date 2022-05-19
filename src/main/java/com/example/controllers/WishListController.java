@@ -6,6 +6,7 @@ import com.example.services.WishListService;
 import com.example.services.coverter.WishListConverter;
 import com.example.services.dto.WishListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,14 +38,14 @@ public class WishListController {
     }
 
     @RequestMapping(value = "/api/wishlist/create", method = RequestMethod.POST)
-    public String addWishList(@PathVariable("announceId") Integer announceId, @PathVariable("userId") Integer userId) {
+    public String addWishList(@Param("announceId") Integer announceId, @Param("userId") Integer userId) {
         if(announceId == null || userId == null) {
             //return HttpStatus.BAD_REQUEST;
         }
         WishListDTO wishListDTO = new WishListDTO();
         wishListDTO.setAnnounceId(announceId);
         wishListDTO.setUserId(userId);
-        wishListService.addWishList(wishListDTO);
+        wishListService.create(wishListDTO);
         //return HttpStatus.OK;
         return "OK";
     }
