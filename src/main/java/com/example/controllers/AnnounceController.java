@@ -112,23 +112,23 @@ public class AnnounceController {
             });
             if (listFileName.size() > 0) {
                 announceDTO.setLocationPrimaryPicture(listFileName.get(0));
-                if (listFileName.get(0) != null) {
-                    announceDTO.setLocationSecondaryPicture(listFileName.get(0));
+                if (listFileName.get(1) != null) {
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
                 } else {
                     announceDTO.setLocationSecondaryPicture(null);
                 }
                 if (listFileName.size() > 2) {
-                    announceDTO.setLocationThirdPicture(listFileName.get(1));
+                    announceDTO.setLocationThirdPicture(listFileName.get(2));
                 } else {
                     announceDTO.setLocationThirdPicture(null);
                 }
                 if (listFileName.size() > 3) {
-                    announceDTO.setLocationFourthPicture(listFileName.get(2));
+                    announceDTO.setLocationFourthPicture(listFileName.get(3));
                 } else {
                     announceDTO.setLocationFourthPicture(null);
                 }
                 if (listFileName.size() > 4) {
-                    announceDTO.setLocationFifthPicture(listFileName.get(3));
+                    announceDTO.setLocationFifthPicture(listFileName.get(4));
                 } else {
                     announceDTO.setLocationFifthPicture(null);
                 }
