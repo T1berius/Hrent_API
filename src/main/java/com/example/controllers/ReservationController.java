@@ -13,14 +13,16 @@ import com.example.services.dto.ReservationDTO;
 import com.example.services.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class ReservationController {
     @Autowired
     private ReservationRepository reservationRepository;

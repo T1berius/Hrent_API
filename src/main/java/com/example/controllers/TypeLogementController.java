@@ -3,11 +3,9 @@ package com.example.controllers;
 import com.example.model.TypeLogement;
 import com.example.repository.TypeLogementRepository;
 import com.example.services.TypeLogementService;
-import com.example.services.coverter.TypeLogementConverter;
 import com.example.services.dto.TypeLogementDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,16 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class TypeLogementController {
     @Autowired
     private TypeLogementRepository typeLogementRepository;
 
     @Autowired
     private TypeLogementService typeLogementService;
-
-    @Autowired
-    private TypeLogementConverter typeLogementConverter;
 
     @RequestMapping(value = "/api/typeLogements")
     public List<TypeLogement> getAllTypeLogements() {
@@ -33,7 +27,7 @@ public class TypeLogementController {
 
     @RequestMapping(value = "/api/typeLogement/{id}")
     public TypeLogement getTypeLogementById(@PathVariable("id") Integer id) {
-        return typeLogementConverter.dtoToEntity(typeLogementService.findOneById(id));
+        return typeLogementRepository.getById(id);
     }
 
     @RequestMapping(value = "/api/typeLogement/delete/{id}")

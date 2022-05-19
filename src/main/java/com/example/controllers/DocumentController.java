@@ -6,6 +6,7 @@ import com.example.repository.UserRepository;
 import com.example.services.DocumentService;
 import com.example.services.FileStorageService;
 import com.example.services.dto.DocumentDTO;
+import com.example.services.dto.PictureDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class DocumentController {
     @Autowired
     private DocumentRepository documentRepository;

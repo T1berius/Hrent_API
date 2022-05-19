@@ -1,8 +1,14 @@
 package com.example;
 
 import com.example.property.FileStorageProperties;
-import com.example.services.*;
-import com.example.services.dto.*;
+import com.example.services.AnnounceService;
+import com.example.services.DocumentTypeService;
+import com.example.services.TypeLogementService;
+import com.example.services.UserService;
+import com.example.services.dto.AnnounceDTO;
+import com.example.services.dto.DocumentTypeDTO;
+import com.example.services.dto.TypeLogementDTO;
+import com.example.services.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,9 +39,6 @@ public class HrentApplication {
 
     @Autowired
     private TypeLogementService typeLogementService;
-
-    @Autowired
-    private WishListService wishListService;
 
     public static void main(String[] args) {
         SpringApplication.run(HrentApplication.class);
@@ -116,11 +119,5 @@ public class HrentApplication {
         typeLogementDTO5.setId(5);
         typeLogementDTO5.setLibelle("Autre");
         typeLogementDTO5 = this.typeLogementService.create(typeLogementDTO5);
-
-        WishListDTO wishListDTO = new WishListDTO();
-        wishListDTO.setId(1);
-        wishListDTO.setAnnounceId(1);
-        wishListDTO.setUserId(1);
-        wishListDTO = this.wishListService.create(wishListDTO);
     }
 }
