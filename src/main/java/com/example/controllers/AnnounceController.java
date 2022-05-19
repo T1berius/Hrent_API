@@ -110,34 +110,36 @@ public class AnnounceController {
                     listFileName.add(file.getFileName());
                 }
             });
-            if (listFileName.size() > 0) {
-                announceDTO.setLocationPrimaryPicture(listFileName.get(0));
-                if (listFileName.get(1) != null) {
+            switch (listFileName.size()) {
+                case 1:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    break;
+                case 2:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
                     announceDTO.setLocationSecondaryPicture(listFileName.get(1));
-                } else {
-                    announceDTO.setLocationSecondaryPicture(null);
-                }
-                if (listFileName.size() > 2) {
+                    break;
+                case 3:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
                     announceDTO.setLocationThirdPicture(listFileName.get(2));
-                } else {
-                    announceDTO.setLocationThirdPicture(null);
-                }
-                if (listFileName.size() > 3) {
+                    break;
+                case 4:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                    announceDTO.setLocationThirdPicture(listFileName.get(2));
                     announceDTO.setLocationFourthPicture(listFileName.get(3));
-                } else {
-                    announceDTO.setLocationFourthPicture(null);
-                }
-                if (listFileName.size() > 4) {
+                    break;
+                case 5:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                    announceDTO.setLocationThirdPicture(listFileName.get(2));
+                    announceDTO.setLocationFourthPicture(listFileName.get(3));
                     announceDTO.setLocationFifthPicture(listFileName.get(4));
-                } else {
-                    announceDTO.setLocationFifthPicture(null);
-                }
-                announceDTO.setCity(city);
-                announceService.create(announceDTO);
-                return HttpStatus.OK;
-            }  else {
-                return HttpStatus.BAD_REQUEST;
+                    break;
             }
+            announceDTO.setCity(city);
+            announceService.create(announceDTO);
+            return HttpStatus.OK;
         }
         return HttpStatus.BAD_REQUEST;
     }
@@ -225,29 +227,6 @@ public class AnnounceController {
                         announceDTO.setLocationFourthPicture(listFileName.get(3));
                         announceDTO.setLocationFifthPicture(listFileName.get(4));
                         break;
-                }
-                if (listFileName.size() > 0) {
-                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
-                    if (listFileName.get(1) != null) {
-                        announceDTO.setLocationSecondaryPicture(listFileName.get(1));
-                    } else {
-                        announceDTO.setLocationSecondaryPicture(null);
-                    }
-                    if (listFileName.size() > 2) {
-                        announceDTO.setLocationThirdPicture(listFileName.get(2));
-                    } else {
-                        announceDTO.setLocationThirdPicture(null);
-                    }
-                    if (listFileName.size() > 3) {
-                        announceDTO.setLocationFourthPicture(listFileName.get(3));
-                    } else {
-                        announceDTO.setLocationFourthPicture(null);
-                    }
-                    if (listFileName.size() > 4) {
-                        announceDTO.setLocationFifthPicture(listFileName.get(4));
-                    } else {
-                        announceDTO.setLocationFifthPicture(null);
-                    }
                 }
                 announceDTO.setCity(city);
                 announceService.create(announceDTO);
