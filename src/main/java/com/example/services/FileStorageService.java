@@ -6,6 +6,7 @@ import com.example.property.FileStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Time;
 import java.util.Date;
 
 @Service
@@ -38,7 +40,7 @@ public class FileStorageService {
 
     public String storeFile(MultipartFile file) {
         // Normalize file name
-        String fileName = StringUtils.cleanPath(new Date()+"-"+file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             // Check if the file's name contains invalid characters
