@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.model.TypeLogement;
 import com.example.repository.TypeLogementRepository;
 import com.example.services.TypeLogementService;
+import com.example.services.coverter.TypeLogementConverter;
 import com.example.services.dto.TypeLogementDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +23,9 @@ public class TypeLogementController {
     @Autowired
     private TypeLogementService typeLogementService;
 
+    @Autowired
+    private TypeLogementConverter typeLogementConverter;
+
     @RequestMapping(value = "/api/typeLogements")
     public List<TypeLogement> getAllTypeLogements() {
         return typeLogementRepository.findAll();
@@ -29,7 +33,7 @@ public class TypeLogementController {
 
     @RequestMapping(value = "/api/typeLogement/{id}")
     public TypeLogement getTypeLogementById(@PathVariable("id") Integer id) {
-        return typeLogementRepository.getById(id);
+        return typeLogementConverter.dtoToEntity(typeLogementService.findOneById(id));
     }
 
     @RequestMapping(value = "/api/typeLogement/delete/{id}")
