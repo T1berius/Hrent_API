@@ -125,4 +125,12 @@ public class ReservationController {
         }
         return null;
     }
+
+    @RequestMapping(value = "/api/reservation/getByUser/{idUser}", method = RequestMethod.GET)
+    public List<ReservationDTO> getReservationsByIdUser(@PathVariable("idUser") Integer idUser) {
+        if(!userRepository.findById(idUser).isEmpty()) {
+            return reservationService.getAllByIdUser(idUser);
+        }
+        return null;
+    }
 }

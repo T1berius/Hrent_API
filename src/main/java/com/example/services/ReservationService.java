@@ -34,4 +34,8 @@ public class ReservationService extends GenericCrudService<Reservation, Reservat
     public List<ReservationDTO> getAccepted(Integer idAnnounce) {
         return this.converter.listEntityToListDto(((ReservationRepository)this.repository).getAcceptedReservationsByIdAnnounce(idAnnounce));
     }
+
+    public List<ReservationDTO> getAllByIdUser(Integer idUser) {
+        return this.converter.listEntityToListDto(((ReservationRepository)this.repository).findByIdUser(idUser));
+    }
 }
