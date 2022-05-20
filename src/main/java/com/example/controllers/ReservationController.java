@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,17 +55,16 @@ public class ReservationController {
     @RequestMapping(value = "/api/reservation/create", method = RequestMethod.POST)
     public ReservationDTO createReservation(@Param("idUser") Integer idUser,
                                             @Param("idAnnounce") Integer idAnnounce,
-                                            @Param("startDate") Date startDate,
-                                            @Param("endDate") Date endDate,
-                                            @Param("isAccepted") Boolean isAccepted) {
-        if(idUser != null && idAnnounce != null && startDate != null && endDate != null && isAccepted != null) {
+                                            @Param("startDate") String startDate,
+                                            @Param("endDate") String endDate) throws ParseException {
+        if(idUser != null && idAnnounce != null && startDate != null && endDate != null) {
             if(!userRepository.findById(idUser).isEmpty() && !announceRepository.findById(idAnnounce).isEmpty()) {
                 ReservationDTO reservationDTO = new ReservationDTO();
                 reservationDTO.setIdUser(idUser);
                 reservationDTO.setIdAnnounce(idAnnounce);
-                reservationDTO.setStartDate(startDate);
-                reservationDTO.setEndDate(endDate);
-                reservationDTO.setIsAccepted(isAccepted);
+                reservationDTO.setStartDate(new SimpleDateFormat("dd-MM-yyyy").parse(startDate));
+                reservationDTO.setEndDate(new SimpleDateFormat("dd-MM-yyyy").parse(endDate));
+                reservationDTO.setIsAccepted(false);
                 reservationService.create(reservationDTO);
                 return reservationDTO;
            }

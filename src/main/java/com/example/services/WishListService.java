@@ -46,4 +46,9 @@ public class WishListService extends GenericCrudService<WishList, WishListDTO,In
     public List<WishListDTO> getWishListsByUserId(Integer id) {
         return converter.listEntityToListDto(((WishListRepository) this.repository).findByUserId(id));
     }
+
+    public Integer getLastInsertedId() {
+        //return ((WishListRepository) this.repository).getLastId();
+        return 1;
+    }
 }

@@ -38,16 +38,19 @@ public class WishListController {
     }
 
     @RequestMapping(value = "/api/wishlist/create", method = RequestMethod.POST)
-    public String addWishList(@Param("announceId") Integer announceId, @Param("userId") Integer userId) {
+    public HttpStatus addWishList(@Param("announceId") Integer announceId, @Param("userId") Integer userId) {
         if(announceId == null || userId == null) {
             //return HttpStatus.BAD_REQUEST;
         }
         WishListDTO wishListDTO = new WishListDTO();
+        wishListDTO.setId(wishListService.getLastInsertedId()+1);
         wishListDTO.setAnnounceId(announceId);
         wishListDTO.setUserId(userId);
-        wishListService.create(wishListDTO);
-        //return HttpStatus.OK;
-        return "OK";
+        if(announceService.findOneById(announceId) != null && userService.findOneById(userId) != null) {
+            wishListService.create(wishListDTO);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.BAD_REQUEST;
     }
 
     @RequestMapping(value = "/api/wishlist/delete/{id}", method = RequestMethod.DELETE)
