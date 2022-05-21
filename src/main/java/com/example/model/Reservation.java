@@ -28,18 +28,18 @@ public class Reservation {
     private Date endDate;
 
     @Column
-    private Boolean isAccepted;
+    private Integer acceptState;
 
     public Reservation() {
     }
 
-    public Reservation(Integer id, Integer idUser, Integer idAnnounce, Date startDate, Date endDate, Boolean isAccepted) {
+    public Reservation(Integer id, Integer idUser, Integer idAnnounce, Date startDate, Date endDate, Integer acceptState) {
         this.id = id;
         this.idUser = idUser;
         this.idAnnounce = idAnnounce;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.isAccepted = isAccepted;
+        this.acceptState = acceptState;
     }
 
     public Integer getId() {
@@ -62,7 +62,7 @@ public class Reservation {
         return endDate;
     }
 
-    public Boolean getIsAccepted() {
-        return isAccepted;
+    public Integer getAcceptState() {
+        return acceptState;
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public class ReservationConverter implements EntityDtoConverter<Reservation, ReservationDTO> {
     @Override
     public Reservation dtoToEntity(ReservationDTO reservationDTO) {
-        return new Reservation(reservationDTO.getId(), reservationDTO.getIdUser(), reservationDTO.getIdAnnounce(), reservationDTO.getStartDate(), reservationDTO.getEndDate(), reservationDTO.getIsAccepted());
+        return new Reservation(reservationDTO.getId(), reservationDTO.getIdUser(), reservationDTO.getIdAnnounce(), reservationDTO.getStartDate(), reservationDTO.getEndDate(), reservationDTO.getAcceptState());
     }
     @Override
     public ReservationDTO entityToDto(Reservation reservation) {

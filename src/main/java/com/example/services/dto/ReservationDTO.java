@@ -9,7 +9,7 @@ public class ReservationDTO {
     private Integer idAnnounce;
     private Date startDate;
     private Date endDate;
-    private Boolean isAccepted;
+    private Integer acceptState;
 
     public ReservationDTO() {
     }
@@ -54,11 +54,11 @@ public class ReservationDTO {
         this.endDate = endDate;
     }
 
-    public Boolean getIsAccepted() {
-        return isAccepted;
+    public Integer getAcceptState() {
+        return acceptState;
     }
 
-    public void setIsAccepted(Boolean accepted) {
-        this.isAccepted = accepted;
+    public void setAcceptState(Integer accepted) {
+        this.acceptState = accepted;
     }
 }

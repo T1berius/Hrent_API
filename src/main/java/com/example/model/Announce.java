@@ -1,5 +1,7 @@
 package com.example.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.xml.crypto.Data;
 import java.sql.Time;
@@ -18,6 +20,7 @@ public class Announce {
     private String title;
 
     @Column
+    @Length(max = 3000)
     private String description;
 
     @Column

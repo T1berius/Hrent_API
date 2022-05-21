@@ -64,7 +64,7 @@ public class ReservationController {
                 reservationDTO.setIdAnnounce(idAnnounce);
                 reservationDTO.setStartDate(new SimpleDateFormat("dd-MM-yyyy").parse(startDate));
                 reservationDTO.setEndDate(new SimpleDateFormat("dd-MM-yyyy").parse(endDate));
-                reservationDTO.setIsAccepted(false);
+                reservationDTO.setAcceptState(3);
                 reservationService.create(reservationDTO);
                 return reservationDTO;
            }
@@ -75,18 +75,18 @@ public class ReservationController {
     public ReservationDTO updateReservation(@PathVariable("id") Integer id,
                                             @Param("idUser") Integer idUser,
                                             @Param("idAnnounce") Integer idAnnounce,
-                                            @Param("startDate") Date startDate,
-                                            @Param("endDate") Date endDate,
-                                            @Param("isAccepted") Boolean isAccepted) {
-        if(idUser != null && idAnnounce != null && startDate != null && endDate != null && isAccepted != null) {
+                                            @Param("startDate") String startDate,
+                                            @Param("endDate") String endDate,
+                                            @Param("acceptState") Integer acceptState) throws ParseException {
+        if(idUser != null && idAnnounce != null && startDate != null && endDate != null && acceptState != null) {
             if(!userRepository.findById(idUser).isEmpty() && !announceRepository.findById(idAnnounce).isEmpty()) {
                 ReservationDTO reservationDTO = new ReservationDTO();
                 reservationDTO.setId(id);
                 reservationDTO.setIdUser(idUser);
                 reservationDTO.setIdAnnounce(idAnnounce);
-                reservationDTO.setStartDate(startDate);
-                reservationDTO.setEndDate(endDate);
-                reservationDTO.setIsAccepted(isAccepted);
+                reservationDTO.setStartDate(new SimpleDateFormat("dd-MM-yyyy").parse(startDate));
+                reservationDTO.setEndDate(new SimpleDateFormat("dd-MM-yyyy").parse(endDate));
+                reservationDTO.setAcceptState(acceptState);
                 reservationService.update(reservationDTO,id);
                 return reservationDTO;
             }
@@ -99,7 +99,7 @@ public class ReservationController {
             ReservationConverter reservationConverter = new ReservationConverter();
             ReservationDTO reservationDTO = reservationConverter.entityToDto(reservationRepository.findById(id).get());
             reservationDTO.setId(id);
-            reservationDTO.setIsAccepted(true);
+            reservationDTO.setAcceptState(1);
             reservationService.update(reservationDTO,id);
             return reservationDTO;
         }
@@ -111,7 +111,7 @@ public class ReservationController {
             ReservationConverter reservationConverter = new ReservationConverter();
             ReservationDTO reservationDTO = reservationConverter.entityToDto(reservationRepository.findById(id).get());
             reservationDTO.setId(id);
-            reservationDTO.setIsAccepted(false);
+            reservationDTO.setAcceptState(2);
             reservationService.update(reservationDTO,id);
             return reservationDTO;
         }
@@ -130,6 +130,14 @@ public class ReservationController {
     public List<ReservationDTO> getReservationsByIdUser(@PathVariable("idUser") Integer idUser) {
         if(!userRepository.findById(idUser).isEmpty()) {
             return reservationService.getAllByIdUser(idUser);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/api/reservation/getNonAcceptedByUser/{idUser}",method = RequestMethod.GET)
+    public List<ReservationDTO> getReservationNonAcceptedByIdUser(@PathVariable("idUser") Integer idUser) {
+        if (!userRepository.findById(idUser).isEmpty()) {
+            return reservationService.getAllNonAcceptedByIdUser(idUser);
         }
         return null;
     }

@@ -18,4 +18,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     Reservation findByAnnounceId(@Param("id") Integer id);*/
 
     List<Reservation> findByIdUser(Integer idUser);
+
+    @Query("FROM Reservation r where r.acceptState != 1 AND r.idUser = :idUser")
+    List<Reservation> findNotAcceptedByIdUser(@Param("idUser") Integer idUser);
 }
