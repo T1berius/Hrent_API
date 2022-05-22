@@ -42,33 +42,6 @@ public class HrentApplication {
     }
     @EventListener(ApplicationReadyEvent.class)
     public void createDefaultData() throws ParseException {
-        AnnounceDTO announceDTO = new AnnounceDTO();
-        announceDTO.setTitle("Title");
-        announceDTO.setDescription("Description");
-        announceDTO.setPrice(400.0);
-        announceDTO.setCity("City");
-        announceDTO.setIdUser(1);
-        announceDTO.setCaution(100.0);
-        announceDTO.setPostalCode("63000");
-        announceDTO.setCapacity(2);
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2020");
-        announceDTO.setStartDate(date);
-        announceDTO.setEndDate(new Date());
-        announceDTO.setIdTypeLogement(1);
-        announceDTO.setIsIdCardRequired(true);
-        announceDTO.setIsSmokingAllowed(true);
-        announceDTO.setIsPetsAllowed(true);
-        announceDTO.setIsPassportRequired(true);
-        announceDTO.setIsProofOfAddressRequired(true);
-        announceDTO.setArrivalTime(Time.valueOf("03:00:00"));
-        announceDTO.setDepartureTime(Time.valueOf("12:00:00"));
-        announceDTO.setTelephoneNumber("0651434567");
-        announceDTO.setLocationPrimaryPicture(null);
-        announceDTO.setLocationSecondaryPicture(null);
-        announceDTO.setLocationThirdPicture(null);
-        announceDTO.setLocationFourthPicture(null);
-        announceDTO.setLocationFifthPicture(null);
-        announceDTO=this.announceService.create(announceDTO);
 
         UserDTO userDTO = new UserDTO();
         userDTO.setFirstName("FirstName");

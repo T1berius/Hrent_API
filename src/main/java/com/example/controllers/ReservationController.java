@@ -141,4 +141,20 @@ public class ReservationController {
         }
         return null;
     }
+
+    @RequestMapping(value = "/api/reservation/getNonRefusedByUser/{idUser}",method = RequestMethod.GET)
+    public List<ReservationDTO> getReservationAcceptedByIdUser(@PathVariable("idUser") Integer idUser) {
+        if (!userRepository.findById(idUser).isEmpty()) {
+            return reservationService.getAllNotRefusedByIdUser(idUser);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "/api/reservation/getAwaitingByUser/{idUser}",method = RequestMethod.GET)
+    public List<ReservationDTO> getReservationAwaitingByIdUser(@PathVariable("idUser") Integer idUser) {
+        if (!userRepository.findById(idUser).isEmpty()) {
+            return reservationService.getAllAwaitingByIdUser(idUser);
+        }
+        return null;
+    }
 }

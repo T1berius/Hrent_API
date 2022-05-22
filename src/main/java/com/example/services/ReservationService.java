@@ -8,6 +8,7 @@ import com.example.services.coverter.ReservationConverter;
 import com.example.services.dto.DocumentTypeDTO;
 import com.example.services.dto.ReservationDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,5 +41,14 @@ public class ReservationService extends GenericCrudService<Reservation, Reservat
     }
     public List<ReservationDTO> getAllNonAcceptedByIdUser(Integer idUser) {
         return this.converter.listEntityToListDto(((ReservationRepository)this.repository).findNotAcceptedByIdUser(idUser));
+    }
+
+    public List<ReservationDTO> getAllNotRefusedByIdUser(Integer idUser) {
+        return this.converter.listEntityToListDto(((ReservationRepository)this.repository).findNotRefusedByIdUser(idUser));
+    }
+
+    public List<ReservationDTO> getAllAwaitingByIdUser(Integer idUser) {
+        return this.converter.listEntityToListDto(((ReservationRepository)this.repository).findAwaitingByIdUser(idUser));
+
     }
 }
