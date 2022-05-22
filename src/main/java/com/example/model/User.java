@@ -12,6 +12,10 @@ public class User {
     private Integer id;
 
     @Column
+    @Size(max = 20)
+    private String username;
+
+    @Column
     private String firstName;
 
     @Column
@@ -43,8 +47,13 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String firstName, String lastName, String email, Date registeredAt, String city, String zipCode, String phone, Integer idDocument,String password) {
+    public User(String username) {
+
+    }
+
+    public User(Integer id, String username, String firstName, String lastName, String email, Date registeredAt, String city, String zipCode, String phone, Integer idDocument, String password) {
         this.id = id;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -58,6 +67,14 @@ public class User {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
