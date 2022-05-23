@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://h-rent.vercel.app/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DocumentTypeController {
 
     @Autowired

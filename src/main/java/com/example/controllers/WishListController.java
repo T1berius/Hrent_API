@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://h-rent.vercel.app/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WishListController {
     @Autowired
     private WishListService wishListService;

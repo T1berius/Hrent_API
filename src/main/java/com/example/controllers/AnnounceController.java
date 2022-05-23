@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("https://h-rent.vercel.app/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AnnounceController {
     @Autowired
     private FileStorageService fileStorageService;
@@ -140,8 +140,9 @@ public class AnnounceController {
             announceDTO.setCity(city);
             announceService.create(announceDTO);
             return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
         }
-        return HttpStatus.BAD_REQUEST;
     }
     @RequestMapping(value = "/api/announce/update/{id}", method = RequestMethod.PATCH)
     public HttpStatus update(@PathVariable("id") Integer id,

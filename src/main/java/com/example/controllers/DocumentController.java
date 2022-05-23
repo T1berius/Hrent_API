@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://h-rent.vercel.app/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DocumentController {
     @Autowired
     private DocumentRepository documentRepository;
