@@ -1,13 +1,17 @@
 package com.example.controllers;
 
 import com.example.Status;
+import com.example.model.User;
 import com.example.repository.UserRepository;
 import com.example.services.UserService;
 import com.example.services.coverter.UserConverter;
 import com.example.services.dto.UserDTO;
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +25,9 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserConverter userConverter;
 
     @RequestMapping(value = "/api/users",method = RequestMethod.GET)
     public List<UserDTO> getUsers(){
@@ -63,14 +70,23 @@ public class UserController {
             return HttpStatus.BAD_REQUEST;
         }
     }
+
     @RequestMapping(value = "/api/user/login",method = RequestMethod.POST)
-    public UserDTO login(@Param("email") String email,
-                             @Param("password") String password){
-        UserDTO userDTO = new UserDTO();
-        userDTO.setLoggedIn(true);
-        //return userService.login(email,password);
-        return new UserDTO();
+    public ResponseEntity<UserDTO> login(@Param("email") String email, @Param("password") String password) {
+        List<User> users = userRepository.findAll();
+        for (User other : users){
+            if (other.getEmail().equals(email) && other.getPassword().equals(password)) {
+                userRepository.save(other);
+                UserDTO loggedUser = userConverter.entityToDto(other);
+                loggedUser.setLoggedIn(true);
+                UserDTO body = loggedUser;
+                return new ResponseEntity<UserDTO>(body, HttpStatus.OK);
+            }
+        }
+        UserDTO body = new UserDTO();
+        return new ResponseEntity<UserDTO>(body, HttpStatus.BAD_REQUEST);
     }
+
     @PostMapping("/api/user/logout")
     public Status logUserOut(@Valid @RequestBody Integer id) {
         UserConverter userConverter = new UserConverter();
