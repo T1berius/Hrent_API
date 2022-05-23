@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("https://h-rent.vercel.app/")
 public class AnnounceController {
     @Autowired
     private FileStorageService fileStorageService;

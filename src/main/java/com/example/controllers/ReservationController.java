@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("https://h-rent.vercel.app/")
 public class ReservationController {
     @Autowired
     private ReservationRepository reservationRepository;

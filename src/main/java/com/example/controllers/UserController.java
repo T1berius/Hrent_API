@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("https://h-rent.vercel.app/")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
