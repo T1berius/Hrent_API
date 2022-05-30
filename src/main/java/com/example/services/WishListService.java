@@ -39,15 +39,16 @@ public class WishListService extends GenericCrudService<WishList, WishListDTO,In
         return converter.entityToDto(this.repository.getById(id));
     }
 
-    public WishListDTO addWishList(WishListDTO wishListDTO) {
-        return converter.entityToDto(this.repository.save(this.converter.dtoToEntity(wishListDTO)));
-    }
-
     public void deleteWishList(Integer id) {
         this.repository.deleteById(id);
     }
 
     public List<WishListDTO> getWishListsByUserId(Integer id) {
         return converter.listEntityToListDto(((WishListRepository) this.repository).findByUserId(id));
+    }
+
+    public Integer getLastInsertedId() {
+        //return ((WishListRepository) this.repository).getLastId();
+        return 1;
     }
 }

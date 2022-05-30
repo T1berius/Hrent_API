@@ -6,13 +6,14 @@ import com.example.services.WishListService;
 import com.example.services.coverter.WishListConverter;
 import com.example.services.dto.WishListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WishListController {
     @Autowired
     private WishListService wishListService;
@@ -37,16 +38,19 @@ public class WishListController {
     }
 
     @RequestMapping(value = "/api/wishlist/create", method = RequestMethod.POST)
-    public String addWishList(@PathVariable("announceId") Integer announceId, @PathVariable("userId") Integer userId) {
+    public HttpStatus addWishList(@Param("announceId") Integer announceId, @Param("userId") Integer userId) {
         if(announceId == null || userId == null) {
             //return HttpStatus.BAD_REQUEST;
         }
         WishListDTO wishListDTO = new WishListDTO();
+        wishListDTO.setId(wishListService.getLastInsertedId()+1);
         wishListDTO.setAnnounceId(announceId);
         wishListDTO.setUserId(userId);
-        wishListService.addWishList(wishListDTO);
-        //return HttpStatus.OK;
-        return "OK";
+        if(announceService.findOneById(announceId) != null && userService.findOneById(userId) != null) {
+            wishListService.create(wishListDTO);
+            return HttpStatus.OK;
+        }
+        return HttpStatus.BAD_REQUEST;
     }
 
     @RequestMapping(value = "/api/wishlist/delete/{id}", method = RequestMethod.DELETE)

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AnnounceController {
     @Autowired
     private FileStorageService fileStorageService;
@@ -77,7 +77,10 @@ public class AnnounceController {
                                      @Param("telephoneNumber") String telephoneNumber,
                                      @Param("files") MultipartFile[] files) throws ParseException {
         AnnounceDTO announceDTO = new AnnounceDTO();
-        if (title != null && description != null && price != null && idUser != null && caution != null && postalCode != null && city != null && capacity != null && startDate != null && endDate != null && idTypeLogement != null && isIdCardRequired != null && isSmokingAllowed != null && isPetsAllowed != null && isPassportRequired != null && isProofOfAddressRequired != null && arrivalTime != null && departureTime != null && telephoneNumber != null && files != null) {
+        if (title != null && description != null && price != null && idUser != null && caution != null && postalCode != null
+                && city != null && capacity != null && startDate != null && endDate != null && idTypeLogement != null && isIdCardRequired != null
+                && isSmokingAllowed != null && isPetsAllowed != null && isPassportRequired != null && isProofOfAddressRequired != null && arrivalTime != null
+                && departureTime != null && telephoneNumber != null && files != null) {
             announceDTO.setTitle(title);
             announceDTO.setDescription(description);
             announceDTO.setPrice(price);
@@ -110,36 +113,39 @@ public class AnnounceController {
                     listFileName.add(file.getFileName());
                 }
             });
-            if (listFileName.size() > 0) {
-                announceDTO.setLocationPrimaryPicture(listFileName.get(0));
-                if (listFileName.get(0) != null) {
-                    announceDTO.setLocationSecondaryPicture(listFileName.get(0));
-                } else {
-                    announceDTO.setLocationSecondaryPicture(null);
-                }
-                if (listFileName.size() > 2) {
-                    announceDTO.setLocationThirdPicture(listFileName.get(1));
-                } else {
-                    announceDTO.setLocationThirdPicture(null);
-                }
-                if (listFileName.size() > 3) {
-                    announceDTO.setLocationFourthPicture(listFileName.get(2));
-                } else {
-                    announceDTO.setLocationFourthPicture(null);
-                }
-                if (listFileName.size() > 4) {
-                    announceDTO.setLocationFifthPicture(listFileName.get(3));
-                } else {
-                    announceDTO.setLocationFifthPicture(null);
-                }
-                announceDTO.setCity(city);
-                announceService.create(announceDTO);
-                return HttpStatus.OK;
-            }  else {
-                return HttpStatus.BAD_REQUEST;
+            switch (listFileName.size()) {
+                case 1:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    break;
+                case 2:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                    break;
+                case 3:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                    announceDTO.setLocationThirdPicture(listFileName.get(2));
+                    break;
+                case 4:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                    announceDTO.setLocationThirdPicture(listFileName.get(2));
+                    announceDTO.setLocationFourthPicture(listFileName.get(3));
+                    break;
+                case 5:
+                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                    announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                    announceDTO.setLocationThirdPicture(listFileName.get(2));
+                    announceDTO.setLocationFourthPicture(listFileName.get(3));
+                    announceDTO.setLocationFifthPicture(listFileName.get(4));
+                    break;
             }
+            announceDTO.setCity(city);
+            announceService.create(announceDTO);
+            return HttpStatus.OK;
+        } else {
+            return HttpStatus.BAD_REQUEST;
         }
-        return HttpStatus.BAD_REQUEST;
     }
     @RequestMapping(value = "/api/announce/update/{id}", method = RequestMethod.PATCH)
     public HttpStatus update(@PathVariable("id") Integer id,
@@ -199,28 +205,32 @@ public class AnnounceController {
                         listFileName.add(file.getFileName());
                     }
                 });
-                if (listFileName.size() > 0) {
-                    announceDTO.setLocationPrimaryPicture(listFileName.get(0));
-                    if (listFileName.get(1) != null) {
+                switch (listFileName.size()) {
+                    case 1 :
+                        announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                        break;
+                    case 2 :
+                        announceDTO.setLocationPrimaryPicture(listFileName.get(0));
                         announceDTO.setLocationSecondaryPicture(listFileName.get(1));
-                    } else {
-                        announceDTO.setLocationSecondaryPicture(null);
-                    }
-                    if (listFileName.size() > 2) {
+                        break;
+                    case 3 :
+                        announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                        announceDTO.setLocationSecondaryPicture(listFileName.get(1));
                         announceDTO.setLocationThirdPicture(listFileName.get(2));
-                    } else {
-                        announceDTO.setLocationThirdPicture(null);
-                    }
-                    if (listFileName.size() > 3) {
+                        break;
+                    case 4 :
+                        announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                        announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                        announceDTO.setLocationThirdPicture(listFileName.get(2));
                         announceDTO.setLocationFourthPicture(listFileName.get(3));
-                    } else {
-                        announceDTO.setLocationFourthPicture(null);
-                    }
-                    if (listFileName.size() > 4) {
+                        break;
+                    case 5 :
+                        announceDTO.setLocationPrimaryPicture(listFileName.get(0));
+                        announceDTO.setLocationSecondaryPicture(listFileName.get(1));
+                        announceDTO.setLocationThirdPicture(listFileName.get(2));
+                        announceDTO.setLocationFourthPicture(listFileName.get(3));
                         announceDTO.setLocationFifthPicture(listFileName.get(4));
-                    } else {
-                        announceDTO.setLocationFifthPicture(null);
-                    }
+                        break;
                 }
                 announceDTO.setCity(city);
                 announceService.create(announceDTO);

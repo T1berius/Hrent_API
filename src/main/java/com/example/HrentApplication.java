@@ -1,14 +1,8 @@
 package com.example;
 
 import com.example.property.FileStorageProperties;
-import com.example.services.AnnounceService;
-import com.example.services.DocumentTypeService;
-import com.example.services.TypeLogementService;
-import com.example.services.UserService;
-import com.example.services.dto.AnnounceDTO;
-import com.example.services.dto.DocumentTypeDTO;
-import com.example.services.dto.TypeLogementDTO;
-import com.example.services.dto.UserDTO;
+import com.example.services.*;
+import com.example.services.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -40,38 +34,14 @@ public class HrentApplication {
     @Autowired
     private TypeLogementService typeLogementService;
 
+    @Autowired
+    private WishListService wishListService;
+
     public static void main(String[] args) {
         SpringApplication.run(HrentApplication.class);
     }
     @EventListener(ApplicationReadyEvent.class)
     public void createDefaultData() throws ParseException {
-        AnnounceDTO announceDTO = new AnnounceDTO();
-        announceDTO.setTitle("Title");
-        announceDTO.setDescription("Description");
-        announceDTO.setPrice(400.0);
-        announceDTO.setCity("City");
-        announceDTO.setIdUser(1);
-        announceDTO.setCaution(100.0);
-        announceDTO.setPostalCode("63000");
-        announceDTO.setCapacity(2);
-        Date date = new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2020");
-        announceDTO.setStartDate(date);
-        announceDTO.setEndDate(new Date());
-        announceDTO.setIdTypeLogement(1);
-        announceDTO.setIsIdCardRequired(true);
-        announceDTO.setIsSmokingAllowed(true);
-        announceDTO.setIsPetsAllowed(true);
-        announceDTO.setIsPassportRequired(true);
-        announceDTO.setIsProofOfAddressRequired(true);
-        announceDTO.setArrivalTime(Time.valueOf("03:00:00"));
-        announceDTO.setDepartureTime(Time.valueOf("12:00:00"));
-        announceDTO.setTelephoneNumber("0651434567");
-        announceDTO.setLocationPrimaryPicture(null);
-        announceDTO.setLocationSecondaryPicture(null);
-        announceDTO.setLocationThirdPicture(null);
-        announceDTO.setLocationFourthPicture(null);
-        announceDTO.setLocationFifthPicture(null);
-        announceDTO=this.announceService.create(announceDTO);
 
         UserDTO userDTO = new UserDTO();
         userDTO.setFirstName("FirstName");
@@ -119,5 +89,11 @@ public class HrentApplication {
         typeLogementDTO5.setId(5);
         typeLogementDTO5.setLibelle("Autre");
         typeLogementDTO5 = this.typeLogementService.create(typeLogementDTO5);
+
+        WishListDTO wishListDTO = new WishListDTO();
+        wishListDTO.setId(1);
+        wishListDTO.setAnnounceId(1);
+        wishListDTO.setUserId(1);
+        wishListDTO = this.wishListService.create(wishListDTO);
     }
 }
